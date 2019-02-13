@@ -8,7 +8,7 @@ output:
 Decision trees are a Machine Learning method that is underrated, because of its (usually) low accuracy.  
 
 Although, its explanatory power can be very good to explore problems and gain new insights.
-Let's see this example, with data from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg. He assessed biopsies of breast tumours for 699 patients up to 15 July 1992; each of nine attributes has been scored on a scale of 1 to 10, and the outcome is also known. (R Documentation, 2019)
+Let's see this example, with data from the University of Wisconsin Hospitals, Madison from Dr. William H. Wolberg. He assessed biopsies of breast tumours for 699 patients up to 15 July 1992. (R Documentation, 2019)
 
 ```{r code, echo=F,message=F,warning=FALSE}
 # loading cancer biopsy data:
@@ -64,3 +64,5 @@ The numbers inside each cell are the total of benign (left side) and malignant (
 3. Chromatin alterations are also suggestive of malignancy. The bigger bland.chromatin, higher the probability of malignancy
 
 One interesting conclusion from the model:  Tumor samples with non-uniform cell sizes, non-uniform shapes and low number of bare nuclei are ~ 20x more likely to be malignant.
+
+Find the source code for this report at https://git.io/fh7qR
