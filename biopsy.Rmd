@@ -42,14 +42,23 @@ cancer$malignant <- as.numeric(as.factor(cancer$malignant))-1
 
 #filling missing values using vector operations (more efficient than for loops!)
 cancer[is.na(cancer$bare.nuclei),]$bare.nuclei <- median(cancer[cancer$malignant == 0,]$bare.nuclei, na.rm = T)
+
+#building train-test splits:
+#generating test and train data - Data selected randomly with a 80/20 split
+x <- cancer
+trainIndex  <- sample(1:nrow(cancer), 0.8 * nrow(cancer))
+train <- cancer[trainIndex,]
+test <- cancer[-trainIndex,]
   
 # Modelling Decision Tree:
 mytree <- rpart(malignant ~ tumor.thickness+uniform.cell.size+uniform.cell.shape+margin.adhesion+
-                  epitelial.cell.size+bare.nuclei+bland.chromatin+normal.nucleoli+mitoses+malignant, data = cancer, 
+                  epitelial.cell.size+bare.nuclei+bland.chromatin+normal.nucleoli+mitoses+malignant, data = train, 
                 method = "class") #, control=rpart.control(minsplit=50, cp=0.013))
 
 # Plotting Decision Tree:
 rpart.plot(mytree, type = 1, extra=1)
+
+
 ```
 
 ## Interpreting results:
@@ -64,5 +73,30 @@ The numbers inside each cell are the total of benign (left side) and malignant (
 3. Chromatin alterations are also suggestive of malignancy. The bigger bland.chromatin, higher the probability of malignancy
 
 One interesting conclusion from the model:  Tumor samples with non-uniform cell sizes, non-uniform shapes and low number of bare nuclei are ~ 20x more likely to be malignant.
+
+## Testing Model Parameters:
+
+```{r accuracy,echo=T}
+# TESTING & EVALUATING MODEL:
+
+# testing predictions on the model:
+t_pred <- predict(mytree,test,type="class")
+t <- test['malignant']
+
+#building a confusion matrix
+confMat <- table(test$malignant,t_pred)
+
+print('Confusion Matrix:')
+print(confMat)
+
+# getting model accuracy:
+accuracy <- sum(diag(confMat))/sum(confMat)
+print('model accuracy (in %):')
+print(accuracy) # 0.9285714 -> 92.8%  Not bad!!!
+```
+
+We have a confusion matrix which shows that our model got 5 false positives and 5 false negative results, for a total of 140 testing samples.
+
+In terms of success metrics, it means that the model has an accuracy of 92.8%.
 
 Find the source code for this report at https://git.io/fh7qR
