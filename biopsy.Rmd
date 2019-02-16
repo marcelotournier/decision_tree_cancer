@@ -52,7 +52,8 @@ test <- cancer[-trainIndex,]
   
 # Modelling Decision Tree:
 mytree <- rpart(malignant ~ tumor.thickness+uniform.cell.size+uniform.cell.shape+margin.adhesion+
-                  epitelial.cell.size+bare.nuclei+bland.chromatin+normal.nucleoli+mitoses, data = train, 
+                  epitelial.cell.size+bare.nuclei+bland.chromatin+
+                  normal.nucleoli+mitoses, data = train, 
                 method = "class") #, control=rpart.control(minsplit=50, cp=0.013))
 
 # Plotting Decision Tree:
@@ -72,7 +73,7 @@ The numbers inside each cell are the total of benign (left side) and malignant (
 
 3. Chromatin alterations are also suggestive of malignancy. The bigger bland.chromatin, higher the probability of malignancy
 
-One interesting conclusion from the model:  Tumor samples with non-uniform cell sizes, non-uniform shapes and low number of bare nuclei are ~ 20x more likely to be malignant.
+One interesting conclusion from the model:  Tumor samples with non-uniform cell sizes, non-uniform shapes and low number of bare nuclei are ~ 17x more likely to be malignant.
 
 ## Testing Model Parameters:
 
@@ -92,11 +93,11 @@ print(confMat)
 # getting model accuracy:
 accuracy <- sum(diag(confMat))/sum(confMat)
 print('model accuracy (in %):')
-print(accuracy) # 0.9285714 -> 92.8%  Not bad!!!
+print(round(accuracy,3)) 
 ```
 
-We have a confusion matrix which shows that our model got 5 false positives and 5 false negative results, for a total of 140 testing samples.
+We have a confusion matrix which shows that our model got `r confMat[1,2]` false positives and `r confMat[2,1]` false negative results, for a total of 140 testing samples.
 
-In terms of success metrics, it means that the model has an accuracy of 92.8%.
+In terms of success metrics, it means that the model has an accuracy of `r round(accuracy,2)*100`%.
 
 Find the source code for this report at https://git.io/fh7qR
