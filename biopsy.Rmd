@@ -52,7 +52,7 @@ test <- cancer[-trainIndex,]
   
 # Modelling Decision Tree:
 mytree <- rpart(malignant ~ tumor.thickness+uniform.cell.size+uniform.cell.shape+margin.adhesion+
-                  epitelial.cell.size+bare.nuclei+bland.chromatin+normal.nucleoli+mitoses+malignant, data = train, 
+                  epitelial.cell.size+bare.nuclei+bland.chromatin+normal.nucleoli+mitoses, data = train, 
                 method = "class") #, control=rpart.control(minsplit=50, cp=0.013))
 
 # Plotting Decision Tree:
